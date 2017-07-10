@@ -14,11 +14,11 @@ USER_PASSWORD = "password"
 parser = argparse.ArgumentParser(description='Simple ZoomEye searcher, outs IPs to stdout or file')
 
 parser.add_argument("search", help="Your ZoomEye Search")
-parser.add_argument("-pg", "--pages", help="Number of pages to search (Default: 5)", type=int, default=5)
+parser.add_argument("-pa", "--pages", help="Number of pages to search (Default: 5)", type=int, default=5)
 parser.add_argument("-e", "--email", help="Your ZoomEye email", default=USER_EMAIL)
 parser.add_argument("-pw", "--password", help="Your ZoomEye password", default=USER_PASSWORD)
 parser.add_argument("-s", "--save", help="Save output to results.txt", action="store_true")
-parser.add_argument("-pf", "--platform", help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
+parser.add_argument("-pl", "--platform", help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
 args = parser.parse_args()
 
 QUERY = args.search
