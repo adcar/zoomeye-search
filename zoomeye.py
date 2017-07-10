@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.6
+#!/usr/bin/env python
 import sys
 import json
 import requests
@@ -6,7 +6,7 @@ import argparse
 
 ######## CHANGE THESE  (Or use `--email` and `--password` arguments) #########
 USER_EMAIL = "email@example.com"
-USER_PASSWORD = "yourpassword"
+USER_PASSWORD = "password"
 ##############################################################################
 
 
@@ -18,12 +18,16 @@ parser.add_argument("-pg", "--pages", help="Number of pages to search (Default: 
 parser.add_argument("-e", "--email", help="Your ZoomEye email", default=USER_EMAIL)
 parser.add_argument("-pw", "--password", help="Your ZoomEye password", default=USER_PASSWORD)
 parser.add_argument("-s", "--save", help="Save output to results.txt", action="store_true")
+parser.add_argument("-pf", "--platform", help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
 args = parser.parse_args()
 
 QUERY = args.search
 PAGECOUNT = args.pages
 EMAIL = args.email
 PASSWORD = args.password
+
+SEARCH_TYPE = args.platform
+
 
 API_URL = "https://api.zoomeye.org" # In case the ZoomEye API URL ever changes
 
@@ -55,28 +59,36 @@ if args.save:
 # Loopy loop
 currentPage = 1
 while currentPage <= PAGECOUNT:
-  print("\nPage " + str(currentPage))
-  SEARCH = requests.get(API_URL + '/host/search', headers=HEADERS, params={"query": QUERY, "page": currentPage})
+  if args.save:
+    print("\nPage " + str(currentPage))
+  
+  SEARCH = requests.get(API_URL + '/' + SEARCH_TYPE + '/search', headers=HEADERS, params={"query": QUERY, "page": currentPage})
   response = json.loads(SEARCH.text)
   i = 0
   try:
-    while i < 10:
-      print(response["matches"][i]["ip"])
+    while i < len(response["matches"]):
+      if SEARCH_TYPE == "host":
+        print(response["matches"][i]["ip"])
+      if SEARCH_TYPE == "web":
+        print(response["matches"][i]["ip"][0])
+      
       if args.save:
         resultsFile.write(response["matches"][i]["ip"] + "\n")
       
       i += 1
   except IndexError:
     break
+  except KeyError:
+    print("[ERROR] No hosts found")
+    quit()
   currentPage += 1
 
 
 
-resultsFile.close() # Close as write
-ip_count = sum(1 for line in open("results.txt", "r")) # Open as read
-
 
 if args.save:
+  resultsFile.close() # Close as write
+  ip_count = sum(1 for line in open("results.txt", "r")) # Open as read
   print("\n" + str(ip_count) + " IPs saved to results.txt.")
 
 
