@@ -14,9 +14,9 @@ USER_PASSWORD = "password"
 parser = argparse.ArgumentParser(description='Simple ZoomEye searcher, outs IPs to stdout or file')
 
 parser.add_argument("search", help="Your ZoomEye Search")
-parser.add_argument("-pa", "--pages", help="Number of pages to search (Default: 5)", type=int, default=5)
-parser.add_argument("-e", "--email", help="Your ZoomEye email", default=USER_EMAIL)
-parser.add_argument("-pw", "--password", help="Your ZoomEye password", default=USER_PASSWORD)
+parser.add_argument("-p", "--pages", help="Number of pages to search (Default: 5)", type=int, default=5)
+parser.add_argument("--email", help="Your ZoomEye email", default=USER_EMAIL)
+parser.add_argument("--password", help="Your ZoomEye password", default=USER_PASSWORD)
 parser.add_argument("-s", "--save", help="Save output to results.txt", action="store_true")
 parser.add_argument("-pl", "--platform", help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
 args = parser.parse_args()
@@ -69,11 +69,14 @@ while currentPage <= PAGECOUNT:
     while i < len(response["matches"]):
       if SEARCH_TYPE == "host":
         print(response["matches"][i]["ip"])
+        if args.save:
+          resultsFile.write(response["matches"][i]["ip"] + "\n")
       if SEARCH_TYPE == "web":
         print(response["matches"][i]["ip"][0])
+        if args.save:
+          resultsFile.write(response["matches"][i]["ip"][0] + "\n")
       
-      if args.save:
-        resultsFile.write(response["matches"][i]["ip"] + "\n")
+
       
       i += 1
   except IndexError:
