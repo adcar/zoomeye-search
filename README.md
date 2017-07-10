@@ -32,10 +32,10 @@ optional arguments:
                         Platforms to search, accepts "host" and "web" (Default: host)
 ```
 ## Output
+### Shell Redirection:
 By default, zoomeye-search.py will only output IPs. This allows for sending stdout to some other file with shell redirection.
-### Example:
 ```
-chronos@localhost ~/Downloads/git/zoomeye-search $ ./zoomeye.py -pa 1 port:123 >> somefile.txt
+chronos@localhost ~/Downloads/git/zoomeye-search $ ./zoomeye.py -p 1 port:123 >> somefile.txt
 chronos@localhost ~/Downloads/git/zoomeye-search $ cat somefile.txt 
 62.80.176.164
 62.42.37.3
@@ -48,4 +48,35 @@ chronos@localhost ~/Downloads/git/zoomeye-search $ cat somefile.txt
 62.233.188.41
 62.117.128.180
 chronos@localhost ~/Downloads/git/zoomeye-search $ 
+```
+### -s/--save option
+```
+chronos@localhost ~/Downloads/git/zoomeye-search $ ./zoomeye.py -p 1 -pl "web" app:wordpress -s
+You have enabled save. All IPs will be saved to results.txt.
+
+Page 1
+98.138.19.143
+194.63.248.47
+45.34.23.170
+77.243.131.33
+80.237.132.71
+98.129.229.68
+143.95.38.203
+192.185.241.151
+104.24.125.81
+89.38.254.66
+
+10 IPs saved to results.txt.
+chronos@localhost ~/Downloads/git/zoomeye-search $ cat results.txt 
+98.138.19.143
+194.63.248.47
+45.34.23.170
+77.243.131.33
+80.237.132.71
+98.129.229.68
+143.95.38.203
+192.185.241.151
+104.24.125.81
+89.38.254.66
+chronos@localhost ~/Downloads/git/zoomeye-search $
 ```
