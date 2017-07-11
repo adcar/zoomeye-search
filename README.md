@@ -37,6 +37,8 @@ optional arguments:
 By default, zoomeye-search.py will only output IPs. This allows for sending stdout to some other file with shell redirection.
 ```
 $ ./zoomeye.py -p 1 port:123 >> somefile.txt
+```
+```
 $ cat somefile.txt
 62.80.176.164
 62.42.37.3
@@ -67,6 +69,8 @@ Page 1
 89.38.254.66
 
 10 IPs saved to results.txt.
+```
+```
 $ cat results.txt
 98.138.19.143
 194.63.248.47
