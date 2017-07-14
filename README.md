@@ -9,6 +9,8 @@ git clone https://github.com/MD5HashBrowns/zoomeye-search.git
 cd zoomeye-search
 ./zoomeye.py -h
 ```
+## ZoomEye Credentials
+To specify your ZoomEye credentials within zoomeye-search, you can edit `zoomeye.py` and edit the lines that say "CHANGE THESE". Alternatively, you can provide your email and password with `--email` and `--password` arguments.
 ## Usage
 ```
 $ ./zoomeye.py -h
@@ -51,7 +53,7 @@ $ cat somefile.txt
 62.233.188.41
 62.117.128.180
 ```
-### -s/--save option
+### -s / --save option
 ```
 $ ./zoomeye.py -p 1 -pl "web" app:wordpress -s
 You have enabled save. All IPs will be saved to results.txt.
