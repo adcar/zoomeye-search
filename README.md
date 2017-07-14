@@ -1,5 +1,5 @@
 # zoomeye-search
-zoomeye-search is a to be a standalone, lightweight script for fetching IPs from ZoomEye search results.
+zoomeye-search is a standalone, lightweight python script for fetching IPs from ZoomEye search results.
 
 ## Prerequisites
 Python 3.x

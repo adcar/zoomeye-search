@@ -11,7 +11,7 @@ USER_PASSWORD = "password"
 
 
 
-parser = argparse.ArgumentParser(description='Simple ZoomEye searcher, outs IPs to stdout or file')
+parser = argparse.ArgumentParser(description='Simple ZoomEye searcher, outputs IPs to stdout or file')
 
 parser.add_argument("search", help="Your ZoomEye Search")
 parser.add_argument("-p", "--pages", help="Number of pages to search (Default: 5)", type=int, default=5)
