@@ -3,6 +3,7 @@ zoomeye-search is a standalone, lightweight python script for fetching IPs from 
 
 ## Prerequisites
 Python 3.x
+requests (`pip install requests`)
 ## Install
 ```
 git clone https://github.com/MD5HashBrowns/zoomeye-search.git
