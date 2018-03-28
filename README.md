@@ -23,6 +23,8 @@ To specify your ZoomEye credentials within zoomeye-search, you can edit `zoomeye
 
 ```
 $ ./zoomeye.py -h
+```
+```
 usage: zoomeye.py [-h] [-p PAGES] [--email EMAIL] [--password PASSWORD] [-s]
                   [-pl PLATFORM]
                   search
