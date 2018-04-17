@@ -24,9 +24,10 @@ To specify your ZoomEye credentials within zoomeye-search, you can edit `zoomeye
 ```
 $ ./zoomeye.py -h
 ```
+
 ```
 usage: zoomeye.py [-h] [-p PAGES] [--email EMAIL] [--password PASSWORD] [-s]
-                  [-pl PLATFORM] [--port]
+                  [-pl PLATFORM] [--port] [--domain]
                   search
 
 Simple ZoomEye searcher, outputs IPs to stdout or file
@@ -46,6 +47,8 @@ optional arguments:
                         (Default: host)
   --port                Include the port number in the results (e.g.,
                         127.0.0.1:1337) (Only for host platform)
+  --domain              Output the site address rather than the IP. (Only for
+                        web platform)
 ```
 
 ## Output
