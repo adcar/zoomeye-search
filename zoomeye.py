@@ -23,6 +23,7 @@ parser.add_argument(
 parser.add_argument("-pl", "--platform",
                     help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
 parser.add_argument("--port", help="Include the port number in the results (e.g., 127.0.0.1:1337) (Only for host platform)", action="store_true")
+parser.add_argument("--domain", help="Output the site address rather than the IP. (Only for web platform)", action="store_true")
 args = parser.parse_args()
 
 QUERY = args.search
@@ -85,14 +86,15 @@ def getResult():
                         resultItem = response["matches"][i]["ip"] + ":" + str(response["matches"][i]["portinfo"]["port"])
                     else:
                         resultItem = response["matches"][i]["ip"]
-
                     if args.save:
                         resultsFile.write(resultItem + "\n")
                     print(resultItem)
 
                 if SEARCH_TYPE == "web":
-                    resultItem = response["matches"][i]["ip"][0]
-
+                    if args.domain:
+                        resultItem = response["matches"][i]["site"] 
+                    else:
+                        resultItem = response["matches"][i]["ip"][0]
                     if args.save:
                         resultsFile.write(resultItem + "\n")
                     else:
