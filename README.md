@@ -26,10 +26,10 @@ $ ./zoomeye.py -h
 ```
 ```
 usage: zoomeye.py [-h] [-p PAGES] [--email EMAIL] [--password PASSWORD] [-s]
-                  [-pl PLATFORM]
+                  [-pl PLATFORM] [--port]
                   search
 
-Simple ZoomEye searcher, outs IPs to stdout or file
+Simple ZoomEye searcher, outputs IPs to stdout or file
 
 positional arguments:
   search                Your ZoomEye Search
@@ -44,6 +44,8 @@ optional arguments:
   -pl PLATFORM, --platform PLATFORM
                         Platforms to search, accepts "host" and "web"
                         (Default: host)
+  --port                Include the port number in the results (e.g.,
+                        127.0.0.1:1337) (Only for host platform)
 ```
 
 ## Output
