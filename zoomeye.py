@@ -97,8 +97,7 @@ def getResult():
                         resultItem = response["matches"][i]["ip"][0]
                     if args.save:
                         resultsFile.write(resultItem + "\n")
-                    else:
-                        print(resultItem)
+                    print(resultItem)
                 i += 1
         except IndexError:
             break
