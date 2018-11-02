@@ -26,22 +26,23 @@ $ ./zoomeye.py -h
 ```
 
 ```
-usage: zoomeye.py [-h] [-p PAGES] [--email EMAIL] [--password PASSWORD] [-s]
-                  [-pl PLATFORM] [--port] [--domain]
-                  search
+usage: zoomeye.py [-h] [-q QUERY] [-m] [-p PAGES] [--email EMAIL]
+                  [--password PASSWORD] [-s [SAVE]] [-pl PLATFORM] [--port]
+                  [--domain]
 
 Simple ZoomEye searcher, outputs IPs to stdout or file
 
-positional arguments:
-  search                Your ZoomEye Search
-
 optional arguments:
   -h, --help            show this help message and exit
+  -q QUERY, --query QUERY
+                        Your ZoomEye Search
+  -m, --multi           enable multithreading
   -p PAGES, --pages PAGES
                         Number of pages to search (Default: 5)
   --email EMAIL         Your ZoomEye email
   --password PASSWORD   Your ZoomEye password
-  -s, --save            Save output to results.txt
+  -s [SAVE], --save [SAVE]
+                        Save output to <file>, default file name: results.txt
   -pl PLATFORM, --platform PLATFORM
                         Platforms to search, accepts "host" and "web"
                         (Default: host)
@@ -53,50 +54,26 @@ optional arguments:
 
 ## Output
 
-### Shell Redirection:
-
-By default, zoomeye-search.py will only output IPs. This allows for sending stdout to some other file with shell redirection.
-
-```
-$ ./zoomeye.py -p 1 port:123 >> somefile.txt
-```
-
-```
-$ cat somefile.txt
-62.80.176.164
-62.42.37.3
-62.133.141.88
-62.90.77.101
-62.12.27.55
-62.215.181.164
-62.73.84.64
-62.182.13.143
-62.233.188.41
-62.117.128.180
-```
-
 ### -s / --save option
 
+Default: results.txt
 ```
-$ ./zoomeye.py -p 1 -pl "web" app:wordpress -s
+$ ./zoomeye.py -p 1 -pl "web" -q app:wordpress -s
 ```
 
+Or: 
 ```
-You have enabled save. All IPs will be saved to results.txt.
+$ ./zoomeye.py -p 1 -pl "web" -q app:wordpress -s file.txt
+```
 
-Page 1
-98.138.19.143
-194.63.248.47
-45.34.23.170
-77.243.131.33
-80.237.132.71
-98.129.229.68
-143.95.38.203
-192.185.241.151
-104.24.125.81
-89.38.254.66
 
-10 IPs saved to results.txt.
+```
+[*] You have enabled save. All IPs will be saved to results.txt
+[*] Logging in as its.r@email.com
+[+] Successfuly logged in
+[+] 100 IPs saved to results.txt
+
+
 ```
 
 ### --port option
@@ -128,4 +105,11 @@ $ ./zoomeye.py -p 1 "IIS"  --port
 111.68.51.133:100
 192.198.241.150:32400
 12.18.174.234:7479
+```
+### --multi / -m option
+
+You can enable multithreading for faster parsing, file output required.
+
+```
+$ ./zoomeye.py -p 1 -q app:wordpress --multi -s
 ```

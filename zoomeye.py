@@ -87,14 +87,14 @@ def getToken():
 
 def detectSaveMode():
     if args.save:
-        print(BLUE + "[*] You have enabled save. All IPs will be saved to results.txt")
+        print(BLUE + "[*] You have enabled save. All IPs will be saved to "+ args.save)
         try:
             global resultsFile
             # Append file instead of replacing it
-            resultsFile = open('results.txt', 'a')
+            resultsFile = open(args.save, 'a')
         except:
             print(
-                RED + "[-] Could not write to results.txt, please check your permissions")
+                RED + "[-] Could not write to " + args.save + ", please check your permissions")
             quit()
 
 
@@ -195,7 +195,7 @@ def main():
     parser.add_argument(
         "--password", help="Your ZoomEye password", default=USER_PASSWORD)
     parser.add_argument(
-        "-s", "--save", help="Save output to results.txt", action="store_true")
+        "-s", "--save", help="Save output to <file>, default file name: results.txt", nargs="?", type=str, const="results.txt")
     parser.add_argument("-pl", "--platform",
                         help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
     parser.add_argument(
