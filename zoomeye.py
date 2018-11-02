@@ -62,7 +62,8 @@ def getRandomUserAgent():
 
 
 def getToken():
-    print(BLUE + "[*] Logging in as "+args.email)
+    if not args.quiet:
+        print(BLUE + "[*] Logging in as "+args.email)
     headers = {
         'User-Agent': getRandomUserAgent()
     }
@@ -78,9 +79,11 @@ def getToken():
             raise KeyError
 
         ACCESS_TOKEN = AUTH_REQUEST.json()['access_token']
-        print(GREEN + "[+] Successfuly logged in")
+        if not args.quiet:
+            print(GREEN + "[+] Successfuly logged in")
         return ACCESS_TOKEN
     except KeyError:
+        # This isn't supressed in quiet mode because there won't bay any results
         print(RED + "[-] Invalid Credentials, please specify an email and password either in this file or with `--email` and `--password` arguments")
         quit()
 
@@ -101,11 +104,12 @@ def detectSaveMode():
 def getPage(page):
     # This is the prefixed Token
     global TOKEN
-    if(not args.save):
-        print(BLUE + "[*] Parsing page: "+ str(page))
-    else:
-        # to keep the stdout clean
-        print(BLUE + "[*] Parsing page: " + str(page), end='\r')
+    if not args.quiet:
+        if not args.save:
+            print(BLUE + "[*] Parsing page: "+ str(page))
+        else:
+            # to keep the stdout clean
+            print(BLUE + "[*] Parsing page: " + str(page), end='\r')
     
     # Moved HEADERS and SEARCH since they are'nt really global
 
@@ -178,7 +182,7 @@ def getResult():
 
 def ipCount():
     global output
-    print(GREEN + "[+] " + str(len(output)) + " IPs saved to results.txt")
+    print(GREEN + "[+] " + str(len(output)) + " IPs saved to " + args.save)
 
 
 def main():
@@ -196,19 +200,26 @@ def main():
         "--password", help="Your ZoomEye password", default=USER_PASSWORD)
     parser.add_argument(
         "-s", "--save", help="Save output to <file>, default file name: results.txt", nargs="?", type=str, const="results.txt")
+    parser.add_argument(
+        "--quiet", help="Supress all output besides the results. If you have saved enabled, some data will be shown.", action="store_true"
+    )
     parser.add_argument("-pl", "--platform",
                         help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
     parser.add_argument(
         "--port", help="Include the port number in the results (e.g., 127.0.0.1:1337) (Only for host platform)", action="store_true")
     parser.add_argument(
         "--domain", help="Output the site address rather than the IP. (Only for web platform)", action="store_true")
+  
     global args
     args = parser.parse_args()
 
 
     detectSaveMode()
     getResult()
-    ipCount()
+    
+    # Only run the IP counter if save is enabled
+    if args.save:
+        ipCount()
 
     # The end
     print(ENDC)
