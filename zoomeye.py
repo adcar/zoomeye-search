@@ -92,7 +92,7 @@ def getToken():
 def detectSaveMode():
     if args.save:
         print(
-            BLUE + "[*] You have enabled save. All IPs will be saved to " + args.save)
+            BLUE + "[*] All IPs will be saved to " + args.save)
         try:
             global resultsFile
             # Append file instead of replacing it
@@ -101,6 +101,18 @@ def detectSaveMode():
             print(
                 RED + "[-] Could not write to " + args.save + ", please check your permissions")
             quit()
+    else:
+        print(
+            BLUE + "[*] All IPs will be saved to " + "results.txt")
+         try:
+            global resultsFile
+            # Append file instead of replacing it
+            resultsFile = open("results.txt", 'a')
+        except:
+            print(
+                RED + "[-] Could not write to " + "results.txt" + ", please check your permissions")
+            quit()
+
 
 
 def getPage(page):
