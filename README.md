@@ -75,32 +75,6 @@ $ ./zoomeye.py -p 1 -pl "web" -q app:wordpress -s file.txt
 [+] 100 IPs saved to results.txt
 ```
 
-### --quiet option
-
-You can prevent any logging to the screen by enabling the `--quiet` option. This is useful for shell redirection.
-
-### Shell Redirection:
-
-If you enable `--quiet`, zoomeye-search.py will only output IPs. This allows for sending stdout to some other file with shell redirection. This is useful for calling zoomeye-search inside of scripts.
-
-```
-$ ./zoomeye.py --quiet -p 1 port:123 >> somefile.txt
-```
-
-```
-$ cat somefile.txt
-62.80.176.164
-62.42.37.3
-62.133.141.88
-62.90.77.101
-62.12.27.55
-62.215.181.164
-62.73.84.64
-62.182.13.143
-62.233.188.41
-62.117.128.180
-```
-
 ### --port option
 
 You can also tell zoomeye-search to include port numbers in the results.

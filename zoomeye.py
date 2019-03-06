@@ -4,7 +4,7 @@ import json
 import requests
 import argparse
 import signal
-import multiprocessing.dummy as mp 
+import multiprocessing.dummy as mp
 from random import randint
 
 ######## CHANGE THESE  (Or use `--email` and `--password` arguments) #########
@@ -29,17 +29,19 @@ global interrputed
 interrputed = False
 
 # CTRL+C handling
+
+
 def signal_handler(sig, frame):
     print(BLUE + '\n [*] You pressed Ctrl+C!')
     interrputed = True
     sys.exit(1)
+
+
 signal.signal(signal.SIGINT, signal_handler)
 
 
 # In case the ZoomEye API URL ever changes
-API_URL = "https://api.zoomeye.org"  
-
-
+API_URL = "https://api.zoomeye.org"
 
 
 # Random UA since its required
@@ -62,25 +64,24 @@ def getRandomUserAgent():
 
 
 def getToken():
-    if not args.quiet:
-        print(BLUE + "[*] Logging in as "+args.email)
+    print(BLUE + "[*] Logging in as "+args.email)
     headers = {
         'User-Agent': getRandomUserAgent()
     }
 
     USER_DATA = '{"username": ' + '"' + args.email + '"' + \
                 ', "password":  ' + '"' + args.password + '"' + '}'
-    
-    AUTH_REQUEST = requests.post(API_URL + '/user/login', data=USER_DATA, headers=headers) 
+
+    AUTH_REQUEST = requests.post(
+        API_URL + '/user/login', data=USER_DATA, headers=headers)
 
     try:
         # Wrong credentials
         if(AUTH_REQUEST.status_code == 403):
             raise KeyError
-
+        print("access token: " + AUTH_REQUEST.text)
         ACCESS_TOKEN = AUTH_REQUEST.json()['access_token']
-        if not args.quiet:
-            print(GREEN + "[+] Successfuly logged in")
+        print(GREEN + "[+] Successfuly logged in")
         return ACCESS_TOKEN
     except KeyError:
         # This isn't supressed in quiet mode because there won't bay any results
@@ -90,7 +91,8 @@ def getToken():
 
 def detectSaveMode():
     if args.save:
-        print(BLUE + "[*] You have enabled save. All IPs will be saved to "+ args.save)
+        print(
+            BLUE + "[*] You have enabled save. All IPs will be saved to " + args.save)
         try:
             global resultsFile
             # Append file instead of replacing it
@@ -104,13 +106,12 @@ def detectSaveMode():
 def getPage(page):
     # This is the prefixed Token
     global TOKEN
-    if not args.quiet:
-        if not args.save:
-            print(BLUE + "[*] Parsing page: "+ str(page))
-        else:
-            # to keep the stdout clean
-            print(BLUE + "[*] Parsing page: " + str(page), end='\r')
-    
+    if not args.save:
+        print(BLUE + "[*] Parsing page: " + str(page))
+    else:
+        # to keep the stdout clean
+        print(BLUE + "[*] Parsing page: " + str(page), end='\r')
+
     # Moved HEADERS and SEARCH since they are'nt really global
 
     # Add the prefixed token to the headers, and the user agent
@@ -123,7 +124,8 @@ def getPage(page):
     try:
         global output
         while i < len(response["matches"]):
-            if(interrputed): break
+            if(interrputed):
+                break
             if args.platform == "host":
                 if args.port:
                     resultItem = response["matches"][i]["ip"] + ":" + \
@@ -141,15 +143,13 @@ def getPage(page):
             output.append(resultItem)
 
             # clear the current line and print the result
-            if not args.save:
-                sys.stdout.write("\033[K")
-                print(ENDC + resultItem)
+          
+            print(resultItem)
             i += 1
     except IndexError:
         return
     except KeyError:
         print(RED + "[-] No hosts found")
-        ipCount()
         quit()
 
 
@@ -170,13 +170,13 @@ def getResult():
     else:
         currentPage = 1
         while currentPage <= args.pages:
-            if(interrputed): break
+            if(interrputed):
+                break
             getPage(currentPage)
             currentPage += 1
     if args.save:
         global resultsFile
-        resultsFile.writelines(["%s\n" % item  for item in output])
-
+        resultsFile.writelines(["%s\n" % item for item in output])
     
 
 
@@ -200,23 +200,19 @@ def main():
         "--password", help="Your ZoomEye password", default=USER_PASSWORD)
     parser.add_argument(
         "-s", "--save", help="Save output to <file>, default file name: results.txt", nargs="?", type=str, const="results.txt")
-    parser.add_argument(
-        "--quiet", help="Supress all output besides the results. If you have saved enabled, some data will be shown.", action="store_true"
-    )
     parser.add_argument("-pl", "--platform",
                         help="Platforms to search, accepts \"host\" and \"web\" (Default: host)", default="host")
     parser.add_argument(
         "--port", help="Include the port number in the results (e.g., 127.0.0.1:1337) (Only for host platform)", action="store_true")
     parser.add_argument(
         "--domain", help="Output the site address rather than the IP. (Only for web platform)", action="store_true")
-  
+
     global args
     args = parser.parse_args()
 
-
     detectSaveMode()
     getResult()
-    
+
     # Only run the IP counter if save is enabled
     if args.save:
         ipCount()
