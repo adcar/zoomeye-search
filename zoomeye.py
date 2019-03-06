@@ -90,11 +90,11 @@ def getToken():
 
 
 def detectSaveMode():
+    global resultsFile
     if args.save:
         print(
             BLUE + "[*] All IPs will be saved to " + args.save)
         try:
-            global resultsFile
             # Append file instead of replacing it
             resultsFile = open(args.save, 'a')
         except:
@@ -104,8 +104,7 @@ def detectSaveMode():
     else:
         print(
             BLUE + "[*] All IPs will be saved to " + "results.txt")
-         try:
-            global resultsFile
+        try:
             # Append file instead of replacing it
             resultsFile = open("results.txt", 'a')
         except:
@@ -175,8 +174,8 @@ def getResult():
     global TOKEN
     TOKEN = "JWT " + getToken()
 
-    # Basic multithreading, save required
-    if args.multi and args.save:
+    # Basic multithreading
+    if args.multi:
         p = mp.Pool(10)
         p.map(getPage, range(1, args.pages+1))
     else:
@@ -186,15 +185,15 @@ def getResult():
                 break
             getPage(currentPage)
             currentPage += 1
-    if args.save:
-        global resultsFile
-        resultsFile.writelines(["%s\n" % item for item in output])
+
+    global resultsFile
+    resultsFile.writelines(["%s\n" % item for item in output])
     
 
 
 def ipCount():
     global output
-    print(GREEN + "[+] " + str(len(output)) + " IPs saved to " + args.save)
+    print(GREEN + "[+] " + str(len(output)) + " IPs saved to " + resultsFile.name)
 
 
 def main():
@@ -225,9 +224,8 @@ def main():
     detectSaveMode()
     getResult()
 
-    # Only run the IP counter if save is enabled
-    if args.save:
-        ipCount()
+
+    ipCount()
 
     # The end
     print(ENDC)
