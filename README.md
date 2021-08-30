@@ -80,7 +80,7 @@ $ ./zoomeye.py -p 1 -pl "web" -q app:wordpress -s file.txt
 You can also tell zoomeye-search to include port numbers in the results.
 
 ```
-$ ./zoomeye.py -p 1 "IIS"  --port
+$ ./zoomeye.py -p 1 -q "IIS"  --port
 ```
 
 ```
