@@ -1,3 +1,6 @@
+# Deprecated
+This script no longer works due to Zoomeye's API changes.
+
 # zoomeye-search
 
 zoomeye-search is a standalone, lightweight python script for fetching IPs from ZoomEye search results.
